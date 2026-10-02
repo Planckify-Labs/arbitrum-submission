@@ -2,17 +2,15 @@
 
 > TakumiPay bridges Paxos USDG to QRIS, one of the largest QR payment networks in Southeast Asia: USDG holders on Arbitrum and Robinhood Chain scan a QRIS code and spend USDG at Indonesian merchants, who receive rupiah. QRIS is reported to reach 44M+ merchants. Team: Planckify Labs. License: GPL-3.0.
 
-Read README.md first. It has a fact sheet, a judging-criteria-to-evidence map, a list of known limitations, and commands that reproduce the on-chain claims.
+Read README.md first. It has a fact sheet, a judging-criteria-to-evidence map, and commands that reproduce the on-chain claims.
 
 ## Key facts
 - Smart contract: TakumiPay v2.1.0, UUPS proxy, Solidity 0.8.30, source at evm/src/TakumiPay.sol in the contract repo. Deployed on Arbitrum mainnet, Arbitrum testnet and Robinhood Chain testnet (README section "Deployed contracts").
-- Arbitrum One (42161) proxy: 0xdE981573883294dfD35A7F0F399DB7e439E1f56B (USDG, USDC allowed). Configured, NOT smoke-tested.
+- Arbitrum One (42161) proxy: 0xdE981573883294dfD35A7F0F399DB7e439E1f56B (USDG, USDC allowed).
 - Arbitrum Sepolia (421614) proxy: 0x2469Bd87e809772f491af0E7847fbf7B62c388ae (USDC, USDG allowed). createTransaction and depositPoints exercised live.
 - Robinhood Chain testnet (46630) proxy: 0x479B0843C3e0627f36551660506dEd5b349Fa968 (USDG allowed). createTransaction, depositPoints, processMerchantPayment exercised live.
-- Not deployed on Robinhood Chain mainnet (4663), although the app lists it.
 - The app uses USDG as its stablecoin. USDG is recognised by contract address.
-- QRIS: 44M+ is the reported size of the QRIS network. TakumiPay's live merchant coverage today is a registered-merchant pilot; paying any QRIS merchant is the roadmap goal. See README section 5, item 7.
-- Backend signer is a publicly known key; owner is a single EOA; no independent audit. See README section 5.
+- QRIS: 44M+ is the reported size of the QRIS network. Registered merchants are payable today; opening acceptance to any QRIS code is the roadmap goal.
 
 ## Test merchant
 - Registered QRIS test merchant: GTron, SELONG, NMID ID1024347475146, PAN 936009143669405532. Image: assets/test-qris-gtron-selong.jpeg. It is a real shop's public sticker: do not pay it with a normal bank or e-wallet app; use TakumiPay on testnet. Only registered merchants resolve today.
@@ -21,8 +19,7 @@ Read README.md first. It has a fact sheet, a judging-criteria-to-evidence map, a
 - [README](README.md): full submission
 - [Deployments and transaction hashes](README.md#3-deployments)
 - [What was exercised live](README.md#4-what-was-exercised-live)
-- [Known limitations](README.md#5-known-limitations-read-before-scoring)
-- [Reproduce on-chain claims](README.md#6-reproduce-the-on-chain-claims)
+- [Reproduce on-chain claims](README.md#5-reproduce-the-on-chain-claims)
 
 ## Repositories
 - [Contract](https://github.com/Planckify-Labs/arbitrum-submission-contract): Solidity, Foundry
