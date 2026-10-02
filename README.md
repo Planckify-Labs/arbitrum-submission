@@ -264,10 +264,11 @@ No hackathon window is asserted here. These are dated facts from git history so 
 | 2026-10-01 | contract | `dc9abf9` | Deploy to Robinhood Chain testnet, enable USDG |
 | 2026-10-01 | api | `c0362ca`, `6e8af0d` | Register the Arbitrum and Robinhood chains and USDG token rows |
 | 2026-10-02 | api | `5ea9483` | Add USDG to IDR FX rate |
+| 2026-10-01 | mobile-app | `b296532`, `d01bfb9` | Passkey becomes the primary sign-in with multi-chain accounts; lock and notification prompt move to after the user lands on Home |
 | 2026-10-01 | mobile-app | `4f49392` | Focus the app on Arbitrum and Robinhood Chain |
 | 2026-10-02 | mobile-app | `03ee4cc`, `51d29e6` | Arbitrum/Robinhood copy; USDG token handling |
 
-**Pre-existing work (before these dates):** the `TakumiPay` contract itself (v2.1.0 was already deployed to Arc and Base Sepolia before the Arbitrum deployments), the wallet, passkey login, payment-intent and fulfilment backend, and the agent service. The Arbitrum work is deployment, chain and token configuration, USDG focus, and verification on Arbitrum and Robinhood Chain.
+**Pre-existing work (before these dates):** the `TakumiPay` contract itself (v2.1.0 was already deployed to Arc and Base Sepolia before the Arbitrum deployments), the wallet, the passkey wallet layer (first built on Sep 18 for an earlier hackathon), the payment-intent and fulfilment backend, and the agent service. The Arbitrum work is deployment, chain and token configuration, making passkey the primary sign-in, USDG handling, and live verification on Arbitrum and Robinhood Chain.
 
 **AI tool disclosure:** the code was written with AI assistance (Claude). The commit trailers `Co-Authored-By` mark commits made in AI-assisted sessions.
 
