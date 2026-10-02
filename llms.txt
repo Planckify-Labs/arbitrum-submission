@@ -10,7 +10,7 @@ Read README.md first. It has a fact sheet, a judging-criteria-to-evidence map, a
 - Arbitrum Sepolia (421614) proxy: 0x2469Bd87e809772f491af0E7847fbf7B62c388ae (USDC, USDG allowed). createTransaction and depositPoints exercised live.
 - Robinhood Chain testnet (46630) proxy: 0x479B0843C3e0627f36551660506dEd5b349Fa968 (USDG allowed). createTransaction, depositPoints, processMerchantPayment exercised live.
 - Not deployed on Robinhood Chain mainnet (4663), although the app lists it.
-- USDG is the only stablecoin the app shows. Matching is by contract address.
+- The app uses USDG as its stablecoin. USDG is recognised by contract address.
 - QRIS: 44M+ is the reported size of the QRIS network. TakumiPay's live merchant coverage today is a registered-merchant pilot; paying any QRIS merchant is the roadmap goal. See README section 5, item 7.
 - Backend signer is a publicly known key; owner is a single EOA; no independent audit. See README section 5.
 

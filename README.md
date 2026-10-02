@@ -52,9 +52,9 @@ Read before testing:
 | Hackathon | Arbitrum Open House Singapore: Online Buildathon (HackQuest) |
 | Track | Overall Prize, and Promising Products Track |
 | Chains deployed | Arbitrum One (42161), Arbitrum Sepolia (421614), Robinhood Chain testnet (46630) |
-| Chains surfaced in the app | Arbitrum One, Arbitrum Sepolia, Robinhood Chain (4663), Robinhood Chain testnet |
+| Chains supported in this build | Arbitrum One, Arbitrum Sepolia, Robinhood Chain (4663), Robinhood Chain testnet |
 | Contract deployed on Robinhood Chain mainnet (4663) | **No.** The app lists the chain; the payment contract is only on the testnet |
-| Stablecoin | Paxos USDG (Global Dollar). USDG is the only stablecoin the app shows |
+| Stablecoin | Paxos USDG (Global Dollar) |
 | Smart contract | `TakumiPay` v2.1.0, UUPS proxy, Solidity 0.8.30, EVM `cancun`, optimizer 200 runs, `viaIR` |
 | Payment rail | QRIS (Indonesia's national QR standard); the merchant receives IDR |
 | QRIS reach cited | 44M+ merchants, as publicly reported for the whole QRIS network. This is the network's size, not TakumiPay's live coverage (see section 5, item 7) |
@@ -110,7 +110,6 @@ Everything below is in `evm/src/TakumiPay.sol` (about 1,200 lines) of the contra
 
 - Passkey-derived wallet (WebAuthn PRF extension), so there is no seed phrase to show or lose. Code: `services/walletKit/evm/mera/` in the mobile repo.
 - A natural-language agent ("pay my electricity bill with 5 USDG") that can only propose actions. Every write goes through an approval card rendered from the tool arguments, not from model text. Code: `components/home/TakumiAgent/` (mobile) and `src/agents/` (agent-api).
-- Chain and stablecoin focus implemented as an allowlist that hides, rather than deletes, other chains and tokens: `services/walletKit/chainSupport.ts`, `services/chains/evm/arbitrumStack.ts`, `services/tokens/tokenSupport.ts`.
 
 ### 2.4 Real problem solving
 
@@ -119,7 +118,7 @@ Stablecoins are widely held but rarely spendable. Linking USDG to a national QR 
 ### 2.5 USDG integration (extra consideration in the prize text)
 
 - USDG is allowlisted on all three deployments (`addAllowedPaymentToken` transaction hashes in section 3).
-- USDG is the only stablecoin the mobile app shows. Recognition is by contract address, so a lookalike token named "USDG" at another address stays hidden. See `USDG_ADDRESSES` in `services/tokens/tokenSupport.ts`.
+- USDG is the stablecoin the mobile app uses. It is recognised by contract address, so a lookalike token named "USDG" at another address is not treated as USDG. See `USDG_ADDRESSES` in `services/tokens/tokenSupport.ts`.
 - Live testnet calls with Paxos USDG: `createTransaction`, `depositPoints` on Arbitrum Sepolia and Robinhood testnet, plus `processMerchantPayment` on Robinhood testnet.
 - Backend FX row `USDG -> IDR` exists so USDG payment intents price correctly (`src/scripts/prisma/seed.ts` in the api repo).
 
@@ -192,7 +191,6 @@ These are stated up front so a reviewer does not have to discover them.
 6. **Robinhood Chain mainnet (4663):** the app lists the chain and a USDG address, but the payment contract is not deployed there.
 7. **QRIS coverage and payout.** The 44M+ figure describes the QRIS network, not how many merchants TakumiPay can pay today. A scanned QRIS code is currently resolved against merchants registered in our backend (`src/pay/intents.service.ts`, `MERCHANT_NOT_FOUND` otherwise), a deliberate pilot scope. Paying any QRIS merchant with no onboarding is the roadmap goal and depends on an acquiring and licensing partner. The IDR payout and utility-bill fulfilment run through third-party Indonesian providers configured server-side; they are not part of the on-chain code and cannot be reproduced from these repositories without provider credentials. The testnet transactions in section 4 prove the on-chain legs only, not a rupiah payout.
 8. **Tests:** counted, not re-run for this submission (section 2.1).
-9. **Multi-chain codebase:** the repositories also contain support for Solana, Sui, Stellar, Monad and Arc from earlier work. The Arbitrum build hides those chains behind a feature flag (`FEATURE_CHAIN_LOCKDOWN`) rather than deleting them.
 
 ---
 
@@ -277,7 +275,7 @@ No hackathon window is asserted here. These are dated facts from git history so 
 | 2026-10-01 | api | `c0362ca`, `6e8af0d` | Register the Arbitrum and Robinhood chains and USDG token rows |
 | 2026-10-02 | api | `5ea9483` | Add USDG to IDR FX rate |
 | 2026-10-01 | mobile-app | `4f49392` | Focus the app on Arbitrum and Robinhood Chain |
-| 2026-10-02 | mobile-app | `03ee4cc`, `51d29e6` | Arbitrum/Robinhood copy; USDG as the only stablecoin |
+| 2026-10-02 | mobile-app | `03ee4cc`, `51d29e6` | Arbitrum/Robinhood copy; USDG token handling |
 
 **Pre-existing work (before these dates):** the `TakumiPay` contract itself (v2.1.0 was already deployed to Arc and Base Sepolia before the Arbitrum deployments), the wallet, passkey login, payment-intent and fulfilment backend, and the agent service. The Arbitrum work is deployment, chain and token configuration, USDG focus, and verification on Arbitrum and Robinhood Chain.
 
@@ -300,7 +298,7 @@ No hackathon window is asserted here. These are dated facts from git history so 
 
 **Is this deployed on an Arbitrum chain?** Yes: Arbitrum One, Arbitrum Sepolia and Robinhood Chain testnet. Proxy addresses and explorer links are in section 3.
 
-**Does it use USDG?** Yes, on all three deployments, and USDG is the only stablecoin the app shows. Live testnet calls with Paxos testnet USDG are in section 4.
+**Does it use USDG?** Yes, on all three deployments, and the app uses USDG as its stablecoin. Live testnet calls with Paxos testnet USDG are in section 4.
 
 **Is the mainnet deployment production-ready?** No. See section 5, items 1 to 4.
 
