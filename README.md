@@ -1,6 +1,8 @@
 # TakumiPay: Arbitrum Open House Singapore (Online Buildathon) submission
 
-**One sentence:** TakumiPay lets a person receive USDG on Arbitrum or Robinhood Chain, sign up with a passkey (no seed phrase), turn USDG into spendable points, and pay everyday bills (electricity, phone credit, data) and merchants without cashing out to fiat.
+**One sentence:** TakumiPay bridges USDG to QRIS, one of the largest QR payment networks in Southeast Asia, so USDG holders on Arbitrum and Robinhood Chain can scan a QRIS code and spend USDG at Indonesian merchants (QRIS is reported to reach 44M+ merchants) while the merchant receives rupiah.
+
+**The gap:** stablecoin holders on Arbitrum and Robinhood Chain have nowhere to spend USDG in the real economy without a manual off-ramp to a bank. Indonesia already has a national QR rail that almost every shop and street vendor accepts. TakumiPay connects the two: the wallet reads the QRIS code, quotes the rupiah price in USDG, settles on-chain through the `TakumiPay` contract, and the merchant is paid in IDR. The same on-chain path also pays bills (electricity, phone credit, mobile data). Sign-up uses a passkey, so there is no seed phrase.
 
 This is the hub repository. It contains no application code. It indexes four code repositories, lists every on-chain deployment with transaction hashes, and states plainly what is verified and what is not.
 
@@ -22,6 +24,25 @@ USDG addresses: Arbitrum One `0x004B506865409877C9fA29bfb1ebA929984B9bbC`, Arbit
 
 ---
 
+## Try it: test QRIS merchant
+
+The backend has one QRIS merchant registered for testing: **GTron, SELONG** (NMID `ID1024347475146`, QRIS PAN `936009143669405532`, seeded in `src/scripts/prisma/seed.ts` of the api repo). This is the printed QRIS sticker for it:
+
+<img src="assets/test-qris-gtron-selong.jpeg" alt="Test QRIS merchant sticker: GTron, SELONG" width="320">
+
+How to use it:
+1. Install the preview APK on an Android phone and sign up with a passkey.
+2. Choose Arbitrum Sepolia or Robinhood Chain testnet and hold testnet USDG.
+3. Open **Scan to pay**. Scan this image from another screen, or save it to the phone and use **Pick from gallery**.
+4. The app reads the QRIS code, asks the backend for a rupiah price quoted in USDG, and shows the quote for approval. Approve with the passkey to send `processMerchantPayment` on-chain.
+
+Read before testing:
+- **This is a real shop's public QRIS sticker.** Scanning it with a normal bank or e-wallet app would pay that real business. Use it only through TakumiPay on testnet. In the seed, the payout details for this merchant are placeholders, not the shop's real account.
+- **Testnet USDG has no public faucet** that we could find (see `evm/deployments/421614.json` and `46630.json`). A live run needs a wallet that already holds testnet USDG, so the demo video is the reliable way to see the full flow: https://youtu.be/ZwcOpxk1QX8
+- Only this registered merchant resolves today. Other QRIS codes return "merchant not found" (section 5, item 7).
+
+---
+
 ## 1. Fact sheet
 
 | Field | Value |
@@ -35,6 +56,8 @@ USDG addresses: Arbitrum One `0x004B506865409877C9fA29bfb1ebA929984B9bbC`, Arbit
 | Contract deployed on Robinhood Chain mainnet (4663) | **No.** The app lists the chain; the payment contract is only on the testnet |
 | Stablecoin | Paxos USDG (Global Dollar). USDG is the only stablecoin the app shows |
 | Smart contract | `TakumiPay` v2.1.0, UUPS proxy, Solidity 0.8.30, EVM `cancun`, optimizer 200 runs, `viaIR` |
+| Payment rail | QRIS (Indonesia's national QR standard); the merchant receives IDR |
+| QRIS reach cited | 44M+ merchants, as publicly reported for the whole QRIS network. This is the network's size, not TakumiPay's live coverage (see section 5, item 7) |
 | Mobile app | React Native + Expo (Android preview build) |
 | Backend | NestJS + Prisma + PostgreSQL |
 | Agent service | NestJS, Vercel AI SDK, Kimi K2.6 via Moonshot, Deepgram for speech to text |
@@ -76,10 +99,12 @@ Everything below is in `evm/src/TakumiPay.sol` (about 1,200 lines) of the contra
 
 ### 2.2 Product-market fit
 
-- **Problem:** people who hold or receive stablecoins cannot spend them directly on the bills they actually pay. Recipients of remittances cash out through fee-heavy off-ramps just to cover electricity and phone credit. Seed phrases and gas keep non-crypto users out.
-- **Who:** recipients and families in markets where bill payment is the main use of received money. The first fulfilment rails are Indonesian (prepaid electricity, phone credit, mobile data, merchant QR payout).
-- **Flow:** (1) create a wallet with a passkey; (2) receive USDG; (3) `depositPoints` converts USDG into points; (4) pay a bill or merchant with points or directly with USDG via `processMerchantPayment`; (5) the backend fulfils the order after the on-chain event.
-- **Retention hook:** recurring bills. A user who receives money monthly pays the same bills monthly.
+- **Problem:** USDG on Arbitrum or Robinhood Chain is easy to hold and hard to spend. Turning it into everyday purchases means moving to an exchange, selling, and withdrawing to a bank, which costs time and fees and loses most small payments. Seed phrases and gas tokens keep ordinary users out.
+- **Why QRIS:** Indonesia is a large market with high mobile and QR adoption, and QRIS is the national interoperable QR code that merchants of every size already display. QRIS is reported to cover 44M+ merchants. A wallet that can pay a QRIS code inherits that acceptance without asking merchants to adopt anything new.
+- **Who:** crypto holders in or visiting Indonesia, and recipients of USDG remittances who need rupiah for daily spending.
+- **Flow:** (1) create a wallet with a passkey; (2) hold USDG on Arbitrum or Robinhood Chain; (3) scan a QRIS code; (4) the backend prices the rupiah amount in USDG and signs an EIP-712 quote; (5) the user approves with the passkey and the app calls `processMerchantPayment`; (6) the contract pulls the USDG; (7) the backend pays the merchant in IDR through a licensed Indonesian payout provider. `depositPoints` converts USDG into a stored-value balance for users who want to pre-load, and the same path pays utility bills.
+- **Retention hook:** daily spending. A user who can pay a street vendor, a coffee shop and an electricity bill from one balance has a reason to keep funds in USDG.
+- **Honest scope today:** scanning, pricing, quote signing, on-chain settlement and IDR payout are implemented. Merchant lookup currently resolves a scanned QRIS code against merchants registered in our backend (a pilot cohort). Paying any QRIS merchant with no onboarding is the target and needs an acquiring and licensing partner. See section 5, item 7.
 
 ### 2.3 Innovation and creativity
 
@@ -89,7 +114,7 @@ Everything below is in `evm/src/TakumiPay.sol` (about 1,200 lines) of the contra
 
 ### 2.4 Real problem solving
 
-Bill payment with stablecoins is a real, recurring cost for remittance recipients. The contract path is exercised end to end on testnet with real Paxos testnet USDG (section 4).
+Stablecoins are widely held but rarely spendable. Linking USDG to a national QR network removes the off-ramp step for everyday purchases. The on-chain legs (`createTransaction`, `depositPoints`, `processMerchantPayment`) are exercised end to end on testnet with real Paxos testnet USDG (section 4). The rupiah payout leg depends on third-party providers (section 5, item 7).
 
 ### 2.5 USDG integration (extra consideration in the prize text)
 
@@ -165,7 +190,7 @@ These are stated up front so a reviewer does not have to discover them.
 4. **Verification:** Arbitrum One implementation is recorded as fully verified on Sourcify; Arbiscan verification is not confirmed. Arbitrum Sepolia and Robinhood testnet are not verified on any explorer. No independent audit has been done.
 5. **Withdrawal delay:** 24 hours on Arbitrum One. `0` (instant owner withdrawals) on both testnets.
 6. **Robinhood Chain mainnet (4663):** the app lists the chain and a USDG address, but the payment contract is not deployed there.
-7. **Real-world fulfilment** (electricity, phone credit, merchant payout) runs through third-party Indonesian providers configured server-side. It is not part of the on-chain code and cannot be reproduced from this repository without those provider credentials.
+7. **QRIS coverage and payout.** The 44M+ figure describes the QRIS network, not how many merchants TakumiPay can pay today. A scanned QRIS code is currently resolved against merchants registered in our backend (`src/pay/intents.service.ts`, `MERCHANT_NOT_FOUND` otherwise), a deliberate pilot scope. Paying any QRIS merchant with no onboarding is the roadmap goal and depends on an acquiring and licensing partner. The IDR payout and utility-bill fulfilment run through third-party Indonesian providers configured server-side; they are not part of the on-chain code and cannot be reproduced from these repositories without provider credentials. The testnet transactions in section 4 prove the on-chain legs only, not a rupiah payout.
 8. **Tests:** counted, not re-run for this submission (section 2.1).
 9. **Multi-chain codebase:** the repositories also contain support for Solana, Sui, Stellar, Monad and Arc from earlier work. The Arbitrum build hides those chains behind a feature flag (`FEATURE_CHAIN_LOCKDOWN`) rather than deleting them.
 
@@ -219,7 +244,7 @@ The api and agent need their own `.env` (copy from `.env.example`). Several feat
 
 ```mermaid
 flowchart LR
-    User(["Recipient"]) -->|"passkey sign-in"| App["Mobile app (Expo)"]
+    User(["USDG holder"]) -->|"passkey sign-in, scan QRIS"| App["Mobile app (Expo)"]
     App -->|"chat / voice"| Agent["Agent service (proposes actions only)"]
     Agent -->|"tool call, user approves"| App
     App -->|"POST payment intent"| API["Backend API (NestJS)"]
@@ -227,15 +252,16 @@ flowchart LR
     App -->|"depositPoints / processMerchantPayment"| Chain["TakumiPay proxy on Arbitrum or Robinhood Chain"]
     Chain -->|"pull USDG"| USDG["Paxos USDG"]
     Chain -.->|"event"| API
-    API -->|"fulfil order"| Providers["Bill and merchant providers"]
+    API -->|"IDR payout"| QRIS["QRIS merchant (IDR)"]
+    API -->|"fulfil bill"| Providers["Bill providers"]
 ```
 
 Text version of the payment path, for readers who skip diagrams:
 
-1. The app asks the backend for a payment intent. The backend prices it (FX row for the payer's token symbol) and signs an EIP-712 `QuoteCommitment` with the backend signer.
+1. The user scans a QRIS code. The app asks the backend for a payment intent. The backend prices it (FX row for the payer's token symbol) and signs an EIP-712 `QuoteCommitment` with the backend signer.
 2. The user approves with the passkey. The app calls `processMerchantPayment` with the quote on the TakumiPay proxy.
 3. The contract verifies the signature, expiry and unused `refId`, checks the token is allowlisted, pulls the exact amount of USDG, and records the transaction.
-4. The backend sees the confirmed transaction and fulfils the order (electricity token, phone credit, or merchant payout).
+4. The backend sees the confirmed transaction and pays the merchant in IDR over the QRIS rail (or fulfils a bill: electricity token, phone credit, mobile data).
 
 ---
 
@@ -265,7 +291,7 @@ No hackathon window is asserted here. These are dated facts from git history so 
 
 1. Verify all contracts on Arbiscan and publish an independent review.
 2. Move ownership to a multisig and the quote signer to a managed key (HSM or KMS).
-3. Pilot with one bill-payment partner on Arbitrum One with capped volume.
+3. Pilot QRIS payments on Arbitrum One with capped volume and a licensed acquiring partner, then widen from the registered-merchant cohort toward any QRIS merchant.
 4. Deploy to Robinhood Chain mainnet and open the recipient flow to more corridors.
 
 ---
@@ -280,7 +306,9 @@ No hackathon window is asserted here. These are dated facts from git history so 
 
 **Can I try the app?** Install the Android preview APK on a physical device with biometrics. Passkey key derivation needs the WebAuthn PRF extension and a real platform authenticator; emulators usually cannot complete sign-up.
 
-**Where is the real work?** `evm/src/TakumiPay.sol` (contract), `services/walletKit/evm/mera/` and `components/home/TakumiAgent/` (mobile), `src/pay/` and `src/points/` (api), `src/agents/` (agent-api).
+**How many merchants can a user pay?** QRIS is reported to reach 44M+ merchants across Indonesia. TakumiPay's live coverage today is the registered-merchant pilot cohort; open acceptance of any QRIS code is the roadmap goal (section 5, item 7).
+
+**Where is the real work?** `evm/src/TakumiPay.sol` (contract), `services/walletKit/evm/mera/` and `components/home/TakumiAgent/` (mobile), `services/paymentIntent/detectors/qris.ts` and `app/scan-to-pay.tsx` (QRIS scan), `src/pay/` and `src/points/` (api), `src/agents/` (agent-api).
 
 ---
 

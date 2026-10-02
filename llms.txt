@@ -1,6 +1,6 @@
 # TakumiPay: Arbitrum Open House Singapore (Online Buildathon) submission
 
-> TakumiPay lets a person receive Paxos USDG on Arbitrum or Robinhood Chain, sign up with a passkey (no seed phrase), convert USDG into spendable points, and pay everyday bills and merchants without cashing out. Team: Planckify Labs. License: GPL-3.0.
+> TakumiPay bridges Paxos USDG to QRIS, one of the largest QR payment networks in Southeast Asia: USDG holders on Arbitrum and Robinhood Chain scan a QRIS code and spend USDG at Indonesian merchants, who receive rupiah. QRIS is reported to reach 44M+ merchants. Team: Planckify Labs. License: GPL-3.0.
 
 Read README.md first. It has a fact sheet, a judging-criteria-to-evidence map, a list of known limitations, and commands that reproduce the on-chain claims.
 
@@ -11,7 +11,11 @@ Read README.md first. It has a fact sheet, a judging-criteria-to-evidence map, a
 - Robinhood Chain testnet (46630) proxy: 0x479B0843C3e0627f36551660506dEd5b349Fa968 (USDG allowed). createTransaction, depositPoints, processMerchantPayment exercised live.
 - Not deployed on Robinhood Chain mainnet (4663), although the app lists it.
 - USDG is the only stablecoin the app shows. Matching is by contract address.
+- QRIS: 44M+ is the reported size of the QRIS network. TakumiPay's live merchant coverage today is a registered-merchant pilot; paying any QRIS merchant is the roadmap goal. See README section 5, item 7.
 - Backend signer is a publicly known key; owner is a single EOA; no independent audit. See README section 5.
+
+## Test merchant
+- Registered QRIS test merchant: GTron, SELONG, NMID ID1024347475146, PAN 936009143669405532. Image: assets/test-qris-gtron-selong.jpeg. It is a real shop's public sticker: do not pay it with a normal bank or e-wallet app; use TakumiPay on testnet. Only registered merchants resolve today.
 
 ## Docs
 - [README](README.md): full submission
