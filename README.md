@@ -31,7 +31,7 @@ The backend has one QRIS merchant registered for testing: **GTron, SELONG** (NMI
 <img src="assets/test-qris-gtron-selong.jpeg" alt="Test QRIS merchant sticker: GTron, SELONG" width="320">
 
 How to use it:
-1. Install the preview APK on an Android phone and sign up with a passkey.
+1. Install the [preview APK](https://drive.google.com/file/d/1h1OTzwFwwR9FzChcKUNEp061nYt7gfJo/view?usp=sharing) on an Android phone and sign up with a passkey.
 2. Choose Arbitrum Sepolia or Robinhood Chain testnet and hold testnet USDG.
 3. Open **Scan to pay**. Scan this image from another screen, or save it to the phone and use **Pick from gallery**.
 4. The app reads the QRIS code, asks the backend for a rupiah price quoted in USDG, and shows the quote for approval. Approve with the passkey to send `processMerchantPayment` on-chain.
@@ -62,7 +62,7 @@ Notes:
 | Agent service | NestJS, Vercel AI SDK, Kimi K2.6 via Moonshot, Deepgram for speech to text |
 | License | GPL-3.0 (see [`LICENSE`](./LICENSE)) |
 | Demo video | https://youtu.be/ZwcOpxk1QX8 |
-| Preview APK (Android) | APK_LINK_PENDING |
+| Preview APK (Android) | [Download from Google Drive](https://drive.google.com/file/d/1h1OTzwFwwR9FzChcKUNEp061nYt7gfJo/view?usp=sharing) |
 | Source of truth for deployments | `evm/deployments/{42161,421614,46630}.json` in the contract repo |
 
 ### Repositories
@@ -282,7 +282,7 @@ No hackathon window is asserted here. These are dated facts from git history so 
 
 **Does it use USDG?** Yes, on all three deployments, and the app uses USDG as its stablecoin. Live testnet calls with Paxos testnet USDG are in section 4.
 
-**Can I try the app?** Install the Android preview APK on a physical device with biometrics. Passkey key derivation needs the WebAuthn PRF extension and a real platform authenticator; emulators usually cannot complete sign-up.
+**Can I try the app?** Install the [Android preview APK](https://drive.google.com/file/d/1h1OTzwFwwR9FzChcKUNEp061nYt7gfJo/view?usp=sharing) on a physical device with biometrics. Passkey key derivation needs the WebAuthn PRF extension and a real platform authenticator; emulators usually cannot complete sign-up.
 
 **How many merchants can a user pay?** QRIS is reported to reach 44M+ merchants across Indonesia. Registered merchants are payable today; opening acceptance to any QRIS code is the roadmap goal.
 

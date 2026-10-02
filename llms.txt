@@ -29,3 +29,4 @@ Read README.md first. It has a fact sheet, a judging-criteria-to-evidence map, a
 
 ## Links
 - Demo video: https://youtu.be/ZwcOpxk1QX8
+- Preview APK (Android, install on a physical device with biometrics): https://drive.google.com/file/d/1h1OTzwFwwR9FzChcKUNEp061nYt7gfJo/view?usp=sharing
