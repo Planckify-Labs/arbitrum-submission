@@ -10,7 +10,7 @@ This is the hub repository. It indexes the four code repositories and lists ever
 - Live on Arbitrum One, Arbitrum Sepolia and Robinhood Chain testnet, with USDG enabled on all three.
 - Real Paxos testnet USDG moved through `createTransaction`, `depositPoints` and `processMerchantPayment` (priced by a signed EIP-712 quote). Transaction hashes are in section 4.
 - QRIS scan-to-pay in the app, with a test merchant you can scan straight from this page.
-- Passkey sign-up, so there is no seed phrase to lose.
+- Passkey or Google sign-up on one login screen, so there is no seed phrase to write down or lose.
 - A contract built to hold money: UUPS proxy, replay-safe signed quotes, token allowlist, per-token exit caps with timelocks, and 178 test functions.
 
 **Contents:** [Deployed contracts](#deployed-contracts) · [Try it](#try-it-test-qris-merchant) · [Fact sheet](#1-fact-sheet) · [Evidence by judging criterion](#2-judging-criteria-mapped-to-evidence) · [Deployments](#3-deployments) · [Live testnet proof](#4-what-was-exercised-live) · [Reproduce](#5-reproduce-the-on-chain-claims) · [Architecture](#6-architecture) · [Roadmap](#8-roadmap-grant-milestones)
