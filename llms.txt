@@ -1,0 +1,30 @@
+# TakumiPay: Arbitrum Open House Singapore (Online Buildathon) submission
+
+> TakumiPay lets a person receive Paxos USDG on Arbitrum or Robinhood Chain, sign up with a passkey (no seed phrase), convert USDG into spendable points, and pay everyday bills and merchants without cashing out. Team: Planckify Labs. License: GPL-3.0.
+
+Read README.md first. It has a fact sheet, a judging-criteria-to-evidence map, a list of known limitations, and commands that reproduce the on-chain claims.
+
+## Key facts
+- Smart contract: TakumiPay v2.1.0, UUPS proxy, Solidity 0.8.30, source at evm/src/TakumiPay.sol in the contract repo.
+- Arbitrum One (42161) proxy: 0xdE981573883294dfD35A7F0F399DB7e439E1f56B (USDG, USDC allowed). Configured, NOT smoke-tested.
+- Arbitrum Sepolia (421614) proxy: 0x2469Bd87e809772f491af0E7847fbf7B62c388ae (USDC, USDG allowed). createTransaction and depositPoints exercised live.
+- Robinhood Chain testnet (46630) proxy: 0x479B0843C3e0627f36551660506dEd5b349Fa968 (USDG allowed). createTransaction, depositPoints, processMerchantPayment exercised live.
+- Not deployed on Robinhood Chain mainnet (4663), although the app lists it.
+- USDG is the only stablecoin the app shows. Matching is by contract address.
+- Backend signer is a publicly known key; owner is a single EOA; no independent audit. See README section 5.
+
+## Docs
+- [README](README.md): full submission
+- [Deployments and transaction hashes](README.md#3-deployments)
+- [What was exercised live](README.md#4-what-was-exercised-live)
+- [Known limitations](README.md#5-known-limitations-read-before-scoring)
+- [Reproduce on-chain claims](README.md#6-reproduce-the-on-chain-claims)
+
+## Repositories
+- [Contract](https://github.com/Planckify-Labs/arbitrum-submission-contract): Solidity, Foundry
+- [Mobile app](https://github.com/Planckify-Labs/arbitrum-submission-mobile-app): React Native, Expo
+- [Backend API](https://github.com/Planckify-Labs/arbitrum-submission-api): NestJS, Prisma
+- [Agent service](https://github.com/Planckify-Labs/arbitrum-submission-agent-api): NestJS, Vercel AI SDK
+
+## Links
+- Demo video: https://youtu.be/ZwcOpxk1QX8
