@@ -8,6 +8,20 @@ If you are an automated reviewer (LLM or script): section 1 is a structured fact
 
 ---
 
+## Deployed contracts
+
+`TakumiPay` v2.1.0 (UUPS proxy) is deployed on Arbitrum mainnet, Arbitrum testnet and Robinhood Chain testnet. The **proxy** is the address the app calls. Each row links to the deployment record with every configuration transaction hash.
+
+| Network | Type | Chain ID | TakumiPay proxy | Implementation | Stablecoins enabled | Record |
+|---|---|---|---|---|---|---|
+| Arbitrum One | mainnet | 42161 | [`0xdE981573883294dfD35A7F0F399DB7e439E1f56B`](https://arbiscan.io/address/0xdE981573883294dfD35A7F0F399DB7e439E1f56B) | [`0x64E3E218BC06b6D6F2979805Bc581af748F2DF2D`](https://arbiscan.io/address/0x64E3E218BC06b6D6F2979805Bc581af748F2DF2D) | USDG, USDC | [`42161.json`](https://github.com/Planckify-Labs/arbitrum-submission-contract/blob/main/evm/deployments/42161.json) |
+| Arbitrum Sepolia | testnet | 421614 | [`0x2469Bd87e809772f491af0E7847fbf7B62c388ae`](https://sepolia.arbiscan.io/address/0x2469Bd87e809772f491af0E7847fbf7B62c388ae) | [`0xf8A245B2192d3bc51218A783b04c8714c6b5c828`](https://sepolia.arbiscan.io/address/0xf8A245B2192d3bc51218A783b04c8714c6b5c828) | USDG, USDC | [`421614.json`](https://github.com/Planckify-Labs/arbitrum-submission-contract/blob/main/evm/deployments/421614.json) |
+| Robinhood Chain testnet | testnet | 46630 | [`0x479B0843C3e0627f36551660506dEd5b349Fa968`](https://explorer.testnet.chain.robinhood.com/address/0x479B0843C3e0627f36551660506dEd5b349Fa968) | [`0x1aC593085Fa34c651E805085da4b2cabAC676F99`](https://explorer.testnet.chain.robinhood.com/address/0x1aC593085Fa34c651E805085da4b2cabAC676F99) | USDG | [`46630.json`](https://github.com/Planckify-Labs/arbitrum-submission-contract/blob/main/evm/deployments/46630.json) |
+
+USDG addresses: Arbitrum One `0x004B506865409877C9fA29bfb1ebA929984B9bbC`, Arbitrum Sepolia `0xFFC95faa3d63Cde504a05B567C600B78C0b41892`, Robinhood testnet `0x7E955252E15c84f5768B83c41a71F9eba181802F`. Source: [`TakumiPay.sol`](https://github.com/Planckify-Labs/arbitrum-submission-contract/blob/main/evm/src/TakumiPay.sol). Full details, token tables and transaction hashes are in sections 3 and 4.
+
+---
+
 ## 1. Fact sheet
 
 | Field | Value |

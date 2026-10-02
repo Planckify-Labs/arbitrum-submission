@@ -5,7 +5,7 @@
 Read README.md first. It has a fact sheet, a judging-criteria-to-evidence map, a list of known limitations, and commands that reproduce the on-chain claims.
 
 ## Key facts
-- Smart contract: TakumiPay v2.1.0, UUPS proxy, Solidity 0.8.30, source at evm/src/TakumiPay.sol in the contract repo.
+- Smart contract: TakumiPay v2.1.0, UUPS proxy, Solidity 0.8.30, source at evm/src/TakumiPay.sol in the contract repo. Deployed on Arbitrum mainnet, Arbitrum testnet and Robinhood Chain testnet (README section "Deployed contracts").
 - Arbitrum One (42161) proxy: 0xdE981573883294dfD35A7F0F399DB7e439E1f56B (USDG, USDC allowed). Configured, NOT smoke-tested.
 - Arbitrum Sepolia (421614) proxy: 0x2469Bd87e809772f491af0E7847fbf7B62c388ae (USDC, USDG allowed). createTransaction and depositPoints exercised live.
 - Robinhood Chain testnet (46630) proxy: 0x479B0843C3e0627f36551660506dEd5b349Fa968 (USDG allowed). createTransaction, depositPoints, processMerchantPayment exercised live.
