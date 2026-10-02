@@ -4,9 +4,16 @@
 
 **The gap:** stablecoin holders on Arbitrum and Robinhood Chain have nowhere to spend USDG in the real economy without a manual off-ramp to a bank. Indonesia already has a national QR rail that almost every shop and street vendor accepts. TakumiPay connects the two: the wallet reads the QRIS code, quotes the rupiah price in USDG, settles on-chain through the `TakumiPay` contract, and the merchant is paid in IDR. The same on-chain path also pays bills (electricity, phone credit, mobile data). Sign-up uses a passkey, so there is no seed phrase.
 
-This is the hub repository. It contains no application code. It indexes four code repositories, lists every on-chain deployment with transaction hashes, and states plainly what is verified and what is not.
+This is the hub repository. It indexes the four code repositories and lists every on-chain deployment with transaction hashes.
 
-If you are an automated reviewer (LLM or script): section 1 is a structured fact sheet, section 2 maps each judging criterion to checkable evidence, and section 5 gives commands that reproduce the on-chain claims. Machine-readable summary: [`llms.txt`](./llms.txt).
+**Highlights**
+- Live on Arbitrum One, Arbitrum Sepolia and Robinhood Chain testnet, with USDG enabled on all three.
+- Real Paxos testnet USDG moved through `createTransaction`, `depositPoints` and `processMerchantPayment` (priced by a signed EIP-712 quote). Transaction hashes are in section 4.
+- QRIS scan-to-pay in the app, with a test merchant you can scan straight from this page.
+- Passkey sign-up, so there is no seed phrase to lose.
+- A contract built to hold money: UUPS proxy, replay-safe signed quotes, token allowlist, per-token exit caps with timelocks, and 178 test functions.
+
+**Contents:** [Deployed contracts](#deployed-contracts) · [Try it](#try-it-test-qris-merchant) · [Fact sheet](#1-fact-sheet) · [Evidence by judging criterion](#2-judging-criteria-mapped-to-evidence) · [Deployments](#3-deployments) · [Live testnet proof](#4-what-was-exercised-live) · [Reproduce](#5-reproduce-the-on-chain-claims) · [Architecture](#6-architecture) · [Roadmap](#8-roadmap-grant-milestones)
 
 ---
 
